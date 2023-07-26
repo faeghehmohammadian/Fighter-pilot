@@ -1,10 +1,13 @@
 const mySquare=document.getElementById('Square'); 
 var appendTens = document.getElementById("tens");
 var appendSeconds = document.getElementById("seconds");
-var lefttopsquare=document.querySelector(".left-top-square");
-var righttopsquare=document.querySelector(".right-top-square");
-var leftbottonsquare=document.querySelector(".left-bottom-square");
-var rightbottomsquare=document.querySelector(".right-bottom-square");
+// var lefttopsquare=document.querySelector(".left-top-square");
+// var righttopsquare=document.querySelector(".right-top-square");
+// var leftbottonsquare=document.querySelector(".left-bottom-square");
+// var rightbottomsquare=document.querySelector(".right-bottom-square");
+const dom=document.querySelectorAll(".dom");
+
+
 var div = document.querySelector('.Square'), 
         x = 0, 
         y = 0, 
@@ -13,6 +16,8 @@ var div = document.querySelector('.Square'),
 var tens=0;
 var sec=0;
 var gamestart=true;
+var rec;
+var rectspeed=10;
 
 function startTimer () {
     if(gamestart){
@@ -23,7 +28,9 @@ function startTimer () {
         appendSeconds.innerHTML=Math.round(tens/100);
         appendTens.innerHTML = tens%100;
         }
-        
+        if(tens>500){
+            rectspeed=5;
+        }
     }
 }
 
@@ -42,11 +49,10 @@ function gameover(){
 div.addEventListener('mousedown', function (e) { 
     gamestart=true;
     var Interval ; 
-    var rec;   
+    clearInterval(rec);
+    rec=setInterval(moverect,rectspeed) ;
     clearInterval(Interval);
     Interval = setInterval(startTimer, 10);
-    clearInterval(rec);
-    rec=setInterval(moverect,1000) ;
     // mouse state set to true 
     mousedown = true; 
     // subtract offset 
@@ -64,53 +70,81 @@ div.addEventListener('mousedown', function (e) {
 // }, true); 
 
 mySquare.addEventListener('mousemove', function (e) { 
-    e.preventDefault()
+    e.preventDefault();
+    
     gamestart=true;
     // Is mouse pressed 
     if (mousedown && gamestart) { 
         // Now we calculate the difference upwards 
         div.style.left = e.clientX + x  ; 
         div.style.top = e.clientY + y ; 
-        
         Collisiontobox(div.offsetLeft,div.offsetTop);
+        
     }
     
 }, true);  
+
+function Collisionsquare(){
+    dom.forEach(rect =>{
+        if (div.offsetLeft <= rect.offsetLeft + rect.offsetWidth  && 
+                div.offsetLeft + div.offsetWidth  >= rect.offsetLeft &&
+                div.offsetTop <= rect.offsetTop + rect.offsetHeight && 
+                div.offsetTop + div.offsetHeight >= rect.offsetTop && gamestart){
+            gameover();}
+    });
+}
+
+function chengmovedir(){
+    dom.forEach(rect =>{
+        
+        if(rect.offsetLeft +rect.offsetWidth> 300){
+            //console.log(rect.offsetLeft ,rect.offsetWidth)
+            // if(rect.getAttribute("dx") == 1){
+            //     console.log(rect.offsetLeft)
+            rect.setAttribute("dx","-1");
+            // if(rect.getAttribute("dx") == -1)
+            //     rect.setAttribute("dx","1");
+        }
+        
+        if(rect.offsetLeft<1){
+            if(rect.getAttribute("dx") == 1){
+                //console.log(rect.offsetTop)
+                rect.setAttribute("dx","-1");}
+            if(rect.getAttribute("dx") == -1)
+                rect.setAttribute("dx","1");
+            
+        }
+        if(rect.offsetTop + rect.offsetHeight > 400 ){
+            rect.setAttribute("dy","-1");
+        }
+        if(rect.offsetTop<1){
+            if(rect.getAttribute("dy") == 1)
+                rect.setAttribute("dy","-1");
+            if(rect.getAttribute("dy") == -1)
+                rect.setAttribute("dy","1");
+            
+    }
+    });
+}
 function moverect(){
     if(gamestart){
-    lefttopsquare.style.left =lefttopsquare.offsetLeft + 1 + "px";
-    lefttopsquare.style.top =lefttopsquare.offsetTop + 1 + "px";
-    Collisionsquare(div,lefttopsquare);
-    if(Collisionsquare(div,lefttopsquare)){
-        mousedown=false;
-        gamestart=false;
-        gameover();
-    }
-    righttopsquare.style.left =righttopsquare.offsetLeft - 5 + "px";
-    righttopsquare.style.top =righttopsquare.offsetTop + 5 + "px";
+        //console.log(div.offsetTop)
+        dom.forEach(rect =>{
+            rect.style.left =rect.offsetLeft +parseInt(rect.getAttribute("dx")) + "px";
+            rect.style.top =rect.offsetTop + parseInt(rect.getAttribute("dy")) + "px";
+            chengmovedir();
+            Collisionsquare();
+            // if(Collisionsquare()){
+            //     mousedown=false;
+            //     gamestart=false;
+            //     gameover();}
+            
+            
+            
+        });
+        
+            if(rectspeed==5){
+                clearInterval(moverect,0) ;}
+                //moverect.setSpeed(127);
+    }}
 
-    leftbottonsquare.style.left =leftbottonsquare.offsetLeft + 5 + "px";
-    leftbottonsquare.style.top =leftbottonsquare.offsetTop - 5 + "px";
-
-    rightbottomsquare.style.left =rightbottomsquare.offsetLeft - 5 + "px";
-    rightbottomsquare.style.top =rightbottomsquare.offsetTop - 5 + "px";
-    console.log("div: "+div.offsetLeft,div.offsetTop);
-    console.log("rect: "+lefttopsquare.offsetLeft,lefttopsquare.offsetTop)
-    }
-}
-var styles_applied = window.getComputedStyle(lefttopsquare);
-var widthlefttop=parseInt(styles_applied.width);
-var heightlefttop=parseInt(styles_applied.height);
-
-function Collisionsquare(eldiv,elrect){
-    return !(
-        eldiv.offsetLeft>elrect.offsetLeft+widthlefttop ||
-        eldiv.offsetLeft+30<elrect.offsetLeft ||
-        eldiv.offsetTop>elrect.offsetTop+heightlefttop ||
-        eldiv.offsetTop+30<elrect.offsetTop  )
-        // console.log(eldiv.offsetLeft,eldiv.offsetTop);
-    //     {
-    //     gameover();
-    //     gamestart=false;
-    // }
-}
