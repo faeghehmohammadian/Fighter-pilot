@@ -28,10 +28,23 @@ function startTimer () {
         appendSeconds.innerHTML=Math.round(tens/100);
         appendTens.innerHTML = tens%100;
         }
-        if(tens>500){
-            rectspeed=5;
+        if(tens>500 && tens<0){
+            rectspeed=2;
+            
         }
-    }
+        if(tens>500&& tens<1000){
+            rectspeed=3;
+            
+        }
+        if(tens>1000 && tens<1500){
+            rectspeed=4;
+            
+        }
+        if(tens>1500 && tens<2000){
+            rectspeed=5;
+            
+        }
+}
 }
 
 function Collisiontobox(xs,ys){
@@ -50,7 +63,7 @@ div.addEventListener('mousedown', function (e) {
     gamestart=true;
     var Interval ; 
     clearInterval(rec);
-    rec=setInterval(moverect,rectspeed) ;
+    rec=setInterval(moverect,10) ;
     clearInterval(Interval);
     Interval = setInterval(startTimer, 10);
     // mouse state set to true 
@@ -98,32 +111,34 @@ function chengmovedir(){
     dom.forEach(rect =>{
         
         if(rect.offsetLeft +rect.offsetWidth> 300){
-            //console.log(rect.offsetLeft ,rect.offsetWidth)
-            // if(rect.getAttribute("dx") == 1){
-            //     console.log(rect.offsetLeft)
-            rect.setAttribute("dx","-1");
-            // if(rect.getAttribute("dx") == -1)
-            //     rect.setAttribute("dx","1");
+            if(rect.getAttribute('dx')>0)
+                rect.setAttribute('dx',-1*rect.getAttribute('dx'));
+    
         }
         
         if(rect.offsetLeft<1){
-            if(rect.getAttribute("dx") == 1){
-                //console.log(rect.offsetTop)
-                rect.setAttribute("dx","-1");}
-            if(rect.getAttribute("dx") == -1)
-                rect.setAttribute("dx","1");
-            
+            if(rect.getAttribute('dx')>0)
+                rect.setAttribute('dx',-1*rect.getAttribute('dx'));
+    
+            if(rect.getAttribute('dx')<0)
+                rect.setAttribute('dx',-1*rect.getAttribute('dx'));
         }
         if(rect.offsetTop + rect.offsetHeight > 400 ){
-            rect.setAttribute("dy","-1");
+            if(rect.getAttribute('dy')>0)
+                rect.setAttribute('dy',-1*rect.getAttribute('dy'));
         }
         if(rect.offsetTop<1){
-            if(rect.getAttribute("dy") == 1)
-                rect.setAttribute("dy","-1");
-            if(rect.getAttribute("dy") == -1)
-                rect.setAttribute("dy","1");
-            
+            // if(rect.getAttribute("dy") == 1)
+            //     rect.setAttribute("dy","-1");
+            // if(rect.getAttribute("dy") == -1)
+            //     rect.setAttribute("dy","1");
+            if(rect.getAttribute('dy')>0)
+            rect.setAttribute('dy',-1*rect.getAttribute('dy'));
+
+        if(rect.getAttribute('dy')<0)
+            rect.setAttribute('dy',-1*rect.getAttribute('dy'));
     }
+    
     });
 }
 function moverect(){
@@ -138,13 +153,55 @@ function moverect(){
             //     mousedown=false;
             //     gamestart=false;
             //     gameover();}
-            
-            
+            if(rectspeed==2){
+                if(rect.getAttribute('dx')>0)
+                    rect.setAttribute('dx','1.5');
+                if(rect.getAttribute('dx')<0)
+                    rect.setAttribute('dx','-1.5');
+                if(rect.getAttribute('dy')>0)
+                    rect.setAttribute('dy','1.5');
+                if(rect.getAttribute('dy')<0)
+                    rect.setAttribute('dy','-1.5');
+            }
+            if(rectspeed==3){
+                if(rect.getAttribute('dx')>0)
+                    rect.setAttribute('dx','2');
+                if(rect.getAttribute('dx')<0)
+                    rect.setAttribute('dx','-2');
+                if(rect.getAttribute('dy')>0)
+                    rect.setAttribute('dy','2');
+                if(rect.getAttribute('dy')<0)
+                    rect.setAttribute('dy','-2');
+            }
+            if(rectspeed==4){
+                if(rect.getAttribute('dx')>0)
+                    rect.setAttribute('dx','2.5');
+                if(rect.getAttribute('dx')<0)
+                    rect.setAttribute('dx','-2.5');
+                if(rect.getAttribute('dy')>0)
+                    rect.setAttribute('dy','2.5');
+                if(rect.getAttribute('dy')<0)
+                    rect.setAttribute('dy','-2.5');
+            }
+            if(rectspeed==5){
+                if(rect.getAttribute('dx')>0)
+                    rect.setAttribute('dx','3');
+                if(rect.getAttribute('dx')<0)
+                    rect.setAttribute('dx','-3');
+                if(rect.getAttribute('dy')>0)
+                    rect.setAttribute('dy','3');
+                if(rect.getAttribute('dy')<0)
+                    rect.setAttribute('dy','-3');
+            }
             
         });
         
-            if(rectspeed==5){
-                clearInterval(moverect,0) ;}
-                //moverect.setSpeed(127);
+            // if(rectspeed==5){
+            //     //console.log(tens,rectspeed);
+            //     //clearInterval(rec);
+            //     //rec=clearInterval(moverect,0) ;}
+            //     //moverect.setSpeed(127);
+                
+            // }
     }}
 
