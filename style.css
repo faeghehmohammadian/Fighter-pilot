@@ -64,5 +64,5 @@
     left: 0; 
     top: 0; 
     background-color: #f10606; 
-    transition: all 1ms;
+    /* transition: all 1ms; */
 }
