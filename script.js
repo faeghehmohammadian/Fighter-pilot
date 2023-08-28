@@ -23,13 +23,13 @@ function startTimer () {
         appendTens.innerHTML = tens%100;
         
         }
-        if(tens>100 && tens<800){
+        if(tens>100 && tens<600){
             rectspeed=1;
         }
-        if(tens>800&& tens<1500){
+        if(tens>600 && tens<1200){
             rectspeed=2;
         }
-        if(tens>1500 && tens<2000){
+        if(tens>1200 && tens<2000){
             rectspeed=3;
         }
         if(tens>2000 && tens<3000){
@@ -88,8 +88,8 @@ function moverect(){
             rect.style.left =rect.offsetLeft +parseFloat(rect.getAttribute("dx")) + "px";
             rect.style.top =rect.offsetTop + parseFloat(rect.getAttribute("dy")) + "px";
             chengmovedir();
-            Collisionsquare();
-            const speedArray=[1.2,1.4,1.5,1.6];
+            //Collisionsquare();
+            const speedArray=[1.2,1.4,1.5,1.6,1.7];
 
             for(let i in speedArray){
                 if(rectspeed==i){
@@ -119,9 +119,9 @@ div.addEventListener('mousedown', function (e) {
     gamestart=true;
     var Interval ; 
     clearInterval(rec);
-    rec=setInterval(moverect,10) ;
+    rec=setInterval(moverect,8) ;
     clearInterval(Interval);
-    Interval = setInterval(startTimer, 10);
+    Interval = setInterval(startTimer, 8);
     // mouse state set to true 
     mousedown = true; 
     // subtract offset 
