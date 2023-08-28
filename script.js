@@ -3,9 +3,9 @@ var appendTens = document.getElementById("tens");
 var appendSeconds = document.getElementById("seconds");
 const dom=document.querySelectorAll(".dom");
 var div = document.querySelector('.Square'), 
-        x = 0, 
-        y = 0, 
-        mousedown = false; 
+x = 0, 
+y = 0, 
+mousedown = false; 
 
 var tens=0;
 var sec=0;
@@ -21,19 +21,19 @@ function startTimer () {
         if(tens>100){
         appendSeconds.innerHTML=Math.round(tens/100);
         appendTens.innerHTML = tens%100;
-        console.log(tens);
+        
         }
-        if(tens>200 && tens<500){
+        if(tens>100 && tens<800){
+            rectspeed=1;
+        }
+        if(tens>800&& tens<1500){
             rectspeed=2;
         }
-        if(tens>500&& tens<1500){
+        if(tens>1500 && tens<2000){
             rectspeed=3;
         }
-        if(tens>1500 && tens<2500){
+        if(tens>2000 && tens<3000){
             rectspeed=4;
-        }
-        if(tens>2500 && tens<3000){
-            rectspeed=5;
         }
 }
 }
@@ -85,52 +85,25 @@ function moverect(){
     if(gamestart){
         //console.log(div.offsetTop)
         dom.forEach(rect =>{
-            rect.style.left =rect.offsetLeft +parseInt(rect.getAttribute("dx")) + "px";
-            rect.style.top =rect.offsetTop + parseInt(rect.getAttribute("dy")) + "px";
+            rect.style.left =rect.offsetLeft +parseFloat(rect.getAttribute("dx")) + "px";
+            rect.style.top =rect.offsetTop + parseFloat(rect.getAttribute("dy")) + "px";
             chengmovedir();
             Collisionsquare();
-            
-            if(rectspeed==2){
-                if(rect.getAttribute('dx')>0)
-                    rect.setAttribute('dx','1.5');
-                if(rect.getAttribute('dx')<0)
-                    rect.setAttribute('dx','-1.5');
-                if(rect.getAttribute('dy')>0)
-                    rect.setAttribute('dy','1.5');
-                if(rect.getAttribute('dy')<0)
-                    rect.setAttribute('dy','-1.5');
+            const speedArray=[1.2,1.4,1.5,1.6];
+
+            for(let i in speedArray){
+                if(rectspeed==i){
+                    if(rect.getAttribute('dx')>0)
+                        rect.setAttribute('dx',speedArray[i]);
+                    if(rect.getAttribute('dx')<0)
+                        rect.setAttribute('dx',-1*speedArray[i]);
+                    if(rect.getAttribute('dy')>0)
+                        rect.setAttribute('dy',speedArray[i]);
+                    if(rect.getAttribute('dy')<0)
+                        rect.setAttribute('dy',-1*speedArray[i]);
+                }
             }
-            if(rectspeed==3){
-                if(rect.getAttribute('dx')>0)
-                    rect.setAttribute('dx','2');
-                if(rect.getAttribute('dx')<0)
-                    rect.setAttribute('dx','-2');
-                if(rect.getAttribute('dy')>0)
-                    rect.setAttribute('dy','2');
-                if(rect.getAttribute('dy')<0)
-                    rect.setAttribute('dy','-2');
-            }
-            if(rectspeed==4){
-                if(rect.getAttribute('dx')>0)
-                    rect.setAttribute('dx','2.5');
-                if(rect.getAttribute('dx')<0)
-                    rect.setAttribute('dx','-2.5');
-                if(rect.getAttribute('dy')>0)
-                    rect.setAttribute('dy','2.5');
-                if(rect.getAttribute('dy')<0)
-                    rect.setAttribute('dy','-2.5');
-            }
-            if(rectspeed==5){
-                if(rect.getAttribute('dx')>0)
-                    rect.setAttribute('dx','3');
-                if(rect.getAttribute('dx')<0)
-                    rect.setAttribute('dx','-3');
-                if(rect.getAttribute('dy')>0)
-                    rect.setAttribute('dy','3');
-                if(rect.getAttribute('dy')<0)
-                    rect.setAttribute('dy','-3');
-            }
-            console.log(rect.getAttribute('dx'));
+            console.log(rect.style.left,rect.style.left);
         });
         
     }}
@@ -171,5 +144,3 @@ mySquare.addEventListener('mousemove', function (e) {
     }
     
 }, true);  
-
-
