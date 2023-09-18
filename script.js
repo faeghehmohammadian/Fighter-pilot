@@ -1,8 +1,7 @@
-const mySquare=document.getElementById('Square'); 
 var appendTens = document.getElementById("tens");
 var appendSeconds = document.getElementById("seconds");
 const dom=document.querySelectorAll(".dom");
-var div = document.querySelector('.Square'), 
+var redsquare = document.querySelector('.Square'), 
 x = 0, 
 y = 0, 
 mousedown = false; 
@@ -20,8 +19,7 @@ function startTimer () {
         appendTens.innerHTML = tens;
         if(tens>100){
         appendSeconds.innerHTML=Math.round(tens/100);
-        appendTens.innerHTML = tens%100;
-        
+        appendTens.innerHTML = tens%100;      
         }
         if(tens>100 && tens<600){
             rectspeed=1;
@@ -37,18 +35,23 @@ function startTimer () {
         }
 }
 }
+function gameover(){
+    gamestart=false;
+    alert(`You survived ${appendSeconds.innerHTML+":"+appendTens.innerHTML} Seconds`);
+    window.location.reload();
+}
 
-function Collisiontobox(xs,ys){
-    if( xs>270 || xs<0 || ys>370|| ys<0){
+function Collisiontobox(left,top){
+    if( left>270 || left<0 || top>370 || top<0){
         gameover();
         }
 }
 function Collisionsquare(){
     dom.forEach(rect =>{
-        if (div.offsetLeft <= rect.offsetLeft + rect.offsetWidth  && 
-                div.offsetLeft + div.offsetWidth  >= rect.offsetLeft &&
-                div.offsetTop <= rect.offsetTop + rect.offsetHeight && 
-                div.offsetTop + div.offsetHeight >= rect.offsetTop && gamestart){
+        if (redsquare.offsetLeft <= rect.offsetLeft + rect.offsetWidth  && 
+                redsquare.offsetLeft + redsquare.offsetWidth  >= rect.offsetLeft &&
+                redsquare.offsetTop <= rect.offsetTop + rect.offsetHeight && 
+                redsquare.offsetTop + redsquare.offsetHeight >= rect.offsetTop && gamestart){
             gameover();}
     });
 }
@@ -61,9 +64,6 @@ function chengmovedir(){
                 rect.setAttribute('dx',-1*rect.getAttribute('dx'));
         }
         if(rect.offsetLeft<1){
-            if(rect.getAttribute('dx')>0)
-                rect.setAttribute('dx',-1*rect.getAttribute('dx'));
-    
             if(rect.getAttribute('dx')<0)
                 rect.setAttribute('dx',-1*rect.getAttribute('dx'));
         }
@@ -72,9 +72,6 @@ function chengmovedir(){
                 rect.setAttribute('dy',-1*rect.getAttribute('dy'));
         }
         if(rect.offsetTop<1){
-            if(rect.getAttribute('dy')>0)
-                rect.setAttribute('dy',-1*rect.getAttribute('dy'));
-
             if(rect.getAttribute('dy')<0)
             rect.setAttribute('dy',-1*rect.getAttribute('dy'));
     }
@@ -83,14 +80,11 @@ function chengmovedir(){
 }
 function moverect(){
     if(gamestart){
-        //console.log(div.offsetTop)
         dom.forEach(rect =>{
             rect.style.left =rect.offsetLeft +parseFloat(rect.getAttribute("dx")) + "px";
             rect.style.top =rect.offsetTop + parseFloat(rect.getAttribute("dy")) + "px";
             chengmovedir();
-            //Collisionsquare();
             const speedArray=[1.2,1.4,1.5,1.6,1.7];
-
             for(let i in speedArray){
                 if(rectspeed==i){
                     if(rect.getAttribute('dx')>0)
@@ -103,44 +97,30 @@ function moverect(){
                         rect.setAttribute('dy',-1*speedArray[i]);
                 }
             }
-            console.log(rect.style.left,rect.style.left);
         });
         
     }}
 
-function gameover(){
-    gamestart=false;
-    alert(`You survived ${appendSeconds.innerHTML+":"+appendTens.innerHTML} Seconds`);
-    window.location.reload();
-}
- // div event mousedown 
-div.addEventListener('mousedown', function (e) { 
+redsquare.addEventListener('mousedown', function (e) { 
     e.preventDefault();
     gamestart=true;
     var Interval ; 
     clearInterval(rec);
-    rec=setInterval(moverect,8) ;
+    rec=setInterval(moverect,10) ;
     clearInterval(Interval);
-    Interval = setInterval(startTimer, 8);
-    // mouse state set to true 
-    mousedown = true; 
-    // subtract offset 
-    x = div.offsetLeft - e.clientX; 
-    y = div.offsetTop - e.clientY; 
-    
-}, true); 
+    Interval = setInterval(startTimer, 10); 
+    mousedown = true;  
+    x = redsquare.offsetLeft - e.clientX; 
+    y = redsquare.offsetTop - e.clientY; 
+}); 
 
-mySquare.addEventListener('mousemove', function (e) { 
+redsquare.addEventListener('mousemove', function (e) { 
     e.preventDefault();
-    
     gamestart=true;
-    // Is mouse pressed 
     if (mousedown && gamestart) { 
-        // Now we calculate the difference upwards 
-        div.style.left = e.clientX + x  ; 
-        div.style.top = e.clientY + y ; 
-        Collisiontobox(div.offsetLeft,div.offsetTop);
-        
+        redsquare.style.left = e.clientX + x  ; 
+        redsquare.style.top = e.clientY + y ; 
+        Collisiontobox(redsquare.offsetLeft,redsquare.offsetTop);
     }
     
-}, true);  
+});  

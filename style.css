@@ -19,11 +19,12 @@
     position: relative;
 }
 .square{
-    width: 30px;
-    height: 30px;
     position: absolute;
     top: 185px;
-    left: 135px;;
+    left: 135px;
+    width: 30px; 
+    height: 30px; 
+    background-color: #f10606;
 }
 #left-top-square{
     width:50px;
@@ -56,13 +57,4 @@
     position: absolute;
     top: 320px;
     left: 180px;
-}
-.move { 
-    position: absolute; 
-    width: 30px; 
-    height: 30px; 
-    left: 0; 
-    top: 0; 
-    background-color: #f10606; 
-    /* transition: all 1ms; */
 }
