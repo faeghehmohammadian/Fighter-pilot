@@ -84,6 +84,7 @@ function moverect(){
             rect.style.left =rect.offsetLeft +parseFloat(rect.getAttribute("dx")) + "px";
             rect.style.top =rect.offsetTop + parseFloat(rect.getAttribute("dy")) + "px";
             chengmovedir();
+            Collisionsquare();
             const speedArray=[1.2,1.4,1.5,1.6,1.7];
             for(let i in speedArray){
                 if(rectspeed==i){
