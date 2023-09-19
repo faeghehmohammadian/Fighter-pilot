@@ -1,6 +1,6 @@
 var appendTens = document.getElementById("tens");
 var appendSeconds = document.getElementById("seconds");
-const dom=document.querySelectorAll(".dom");
+const bluesquares=document.querySelectorAll(".blue");
 var redsquare = document.querySelector('.Square'), 
 x = 0, 
 y = 0, 
@@ -8,7 +8,7 @@ mousedown = false;
 
 var tens=0;
 var sec=0;
-var gamestart=true;
+var gamestart=false;
 var rec;
 var rectspeed=0;
 
@@ -47,7 +47,7 @@ function Collisiontobox(left,top){
         }
 }
 function Collisionsquare(){
-    dom.forEach(rect =>{
+    bluesquares.forEach(rect =>{
         if (redsquare.offsetLeft <= rect.offsetLeft + rect.offsetWidth  && 
                 redsquare.offsetLeft + redsquare.offsetWidth  >= rect.offsetLeft &&
                 redsquare.offsetTop <= rect.offsetTop + rect.offsetHeight && 
@@ -57,7 +57,7 @@ function Collisionsquare(){
 }
 
 function chengmovedir(){
-    dom.forEach(rect =>{
+    bluesquares.forEach(rect =>{
         
         if(rect.offsetLeft +rect.offsetWidth> 300){
             if(rect.getAttribute('dx')>0)
@@ -80,7 +80,7 @@ function chengmovedir(){
 }
 function moverect(){
     if(gamestart){
-        dom.forEach(rect =>{
+        bluesquares.forEach(rect =>{
             rect.style.left =rect.offsetLeft +parseFloat(rect.getAttribute("dx")) + "px";
             rect.style.top =rect.offsetTop + parseFloat(rect.getAttribute("dy")) + "px";
             chengmovedir();
@@ -104,13 +104,10 @@ function moverect(){
 
 redsquare.addEventListener('mousedown', function (e) { 
     e.preventDefault();
+    mousedown = true; 
     gamestart=true;
-    var Interval ; 
-    clearInterval(rec);
-    rec=setInterval(moverect,10) ;
-    clearInterval(Interval);
-    Interval = setInterval(startTimer, 10); 
-    mousedown = true;  
+    setInterval(startTimer,10); 
+    setInterval(moverect,10) ;
     x = redsquare.offsetLeft - e.clientX; 
     y = redsquare.offsetTop - e.clientY; 
 }); 
