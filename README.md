@@ -1,4 +1,7 @@
 # Fighter-pilot
+See this project in Github pages:
+https://faeghehmohammadian.github.io/Fighter-pilot/
+
 To start the game click and hold the red square. The aim of the game is to move the red square around the screen without touching the wall or getting hit  by any of the blue blocks.
 It's been said that the US Air Force use this to test their fighter pilots. 
 If you can go longer than 30 seconds you are phenomenal.
